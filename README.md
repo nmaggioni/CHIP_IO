@@ -5,7 +5,7 @@
 
 Accessing the path to control GPIO pins requires root privileges.
 
-If you do not want to run your Go programs as root, put the following files in place on your C.H.I.P. and reboot:
+If you do not want to run your Go programs as root, put the following files in place on your C.H.I.P.:
 
 ###### /usr/local/bin/change_gpio_perms.sh
 
@@ -32,7 +32,7 @@ If you do not want to run your Go programs as root, put the following files in p
 SUBSYSTEM=="gpio", PROGRAM="/usr/local/bin/change_gpio_perms.sh"
 ```
 
-Additionally, append this to `/etc/rc.local` right **before `exit 0` at the end**.
+Append this to `/etc/rc.local` right **before `exit 0` at the end**.
 
 ###### /etc/rc.local
 
@@ -40,6 +40,16 @@ Additionally, append this to `/etc/rc.local` right **before `exit 0` at the end*
 chgrp -R dialout /sys/class/gpio
 chmod -R g+rw /sys/class/gpio
 ```
+
+Also append this to your `.bashrc` if you want to be able to control the Status LED:
+
+###### ~/.bashrc
+
+```text
+export PATH=$PATH:/usr/sbin
+```
+
+**Reboot the _C.H.I.P._ to make the changes effective!**
 
 ---
 
