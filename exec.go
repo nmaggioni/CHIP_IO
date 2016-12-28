@@ -26,16 +26,9 @@ func checkRootOrGroup() {
 		return
 	}
 
-	currentUser, _ := user.Current()
-	groupIDs, _ := currentUser.GroupIds() // TODO: simplify
-	for _, id := range groupIDs {
-		group, _ := user.LookupGroupId(id)
-		if group.Name == "dialout" || group.Name == "gpio" {
-			err := unix.Access("/sys/class/gpio", unix.W_OK)
-			if err == nil {
-				return
-			}
-		}
+	err = unix.Access("/sys/class/gpio", unix.W_OK)
+	if err == nil {
+		return
 	}
 
 	log.Fatal("CHIP_IO needs root privileges or UDEV rule to interact with GPIO! " +
